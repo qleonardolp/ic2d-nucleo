@@ -1,0 +1,22 @@
+{
+    "name" : "altair_nucleo_hw_lib",
+    "description" : "An control library for the boards based on mbedOS",
+    "keywords" : "mbed, nucleo, altair, hw",
+    "repository" : {
+        "type" : "git",
+        "url" : "https://gitlab.com/qleonardolp/hw-lib.git",
+        "branch": "legro-ic2d"
+    },
+    "frameworks" : "mbed",
+    "version" : "1.0.0",
+    "build" : {
+        "flags" : "-std=gnu++11",
+        "unflags": "-std=gnu++98 -std=c++11"
+    },
+    "dependencies": [
+        {
+            "name" : "altair_nucleo_utility_lib",
+            "version": "https://gitlab.com/qleonardolp/utility-lib.git#legro-ic2d"
+        }
+    ]
+}

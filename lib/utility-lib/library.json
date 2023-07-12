@@ -1,0 +1,21 @@
+{
+    "name" : "altair_nucleo_utility_lib",
+    "description" : "An utility library for the boards based on mbedOS",
+    "keywords" : "mbed, nucleo, altair, utility, filters",
+    "repository" : {
+        "type" : "git",
+        "url" : "https://gitlab.com/qleonardolp/utility-lib.git",
+        "branch": "legro-ic2d"
+    },
+    "frameworks" : "mbed",
+    "version" : "1.0.0",
+    "export" : {
+        "exclude" : [
+            "test/"
+        ]
+    },
+    "build" : {
+        "flags" : "-std=gnu++11",
+        "unflags" : "-std=gnu++98"
+    }
+}

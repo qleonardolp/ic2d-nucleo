@@ -1,0 +1,33 @@
+{
+    "name": "forecast_nucleo_framework",
+    "description": "A framework to test Force control algorithms on forecast mbed testbed",
+    "keywords": "mbed, nucleo, altair, hw, forecast, force control, testbed",
+    "repository": {
+        "type": "git",
+        "url": "https://gitlab.com/qleonardolp/forecastnucleoframework.git",
+        "branch": "legro-ic2d"
+    },
+    "frameworks": "mbed",
+    "version": "0.1.0",
+    "build": {
+        "flags": [
+            "-std=gnu++14 -D HSE_CLOCK=8000000 -Wno-register"
+        ],
+        "unflags": "-std=gnu++98 -std=c++11"
+    },
+    "export": {
+        "exclude": [
+            "auto_gen_config/*"
+        ]
+    },
+    "dependencies": [
+        {
+            "name": "altair_nucleo_utility_lib",
+            "version": "https://gitlab.com/qleonardolp/utility-lib.git#legro-ic2d"
+        },
+        {
+            "name": "altair_nucleo_hw_lib",
+            "version": "https://gitlab.com/qleonardolp/hw-lib.git#legro-ic2d"
+        }
+    ]
+}

@@ -1,0 +1,3 @@
+[submodule "lib/Eigen3"]
+	path = lib/Eigen3
+	url = https://github.com/bolderflight/eigen.git

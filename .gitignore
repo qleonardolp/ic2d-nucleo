@@ -1,0 +1,6 @@
+.pio
+.vscode/.browse.c_cpp.db*
+.vscode/launch.json
+.vscode/ipch
+.DS_store
+docs/

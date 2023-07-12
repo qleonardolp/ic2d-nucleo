@@ -3,8 +3,9 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**",
-                "${HOME}/.platformio/packages/framework-mbed/**"
+                "${HOME}/.platformio/packages/framework-mbed/**",
+                "${workspaceFolder}/lib/**",
+                "/home/leonardof/.platformio/packages/framework-mbed"
             ],
             "defines": [
                 "TARGET_STM32F4",

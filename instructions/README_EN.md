@@ -1,90 +1,35 @@
-# Forecast Nucleo Framework - Legged Robotics Group (LegRo)
+# ForceCAST Nucleo Framework - AltairLab | LegRo
 
-Este repositório é dedicado ao desenvolvimento do software embarcado na placa STM32 NUCLEO-F446RE com a bancada de testes IC2D usando a interface gráfica ForceCAST Studio. Inicialmente esse repositório se destina a ser o ambiente de desenvolvimento dedicado à IC2D, sem interação com os repositórios originais do **_AltairLab_**, apesar de herdar o histórico git original. Para acessar o repositório orginal, [clique aqui](https://gitlab.com/altairLab/elasticteam/ForecastNucleoFramework-test/-/tree/NEXT/).
+Este repositório é dedicado ao desenvolvimento do software embarcado na placa STM32 NUCLEO-F446RE com a bancada de testes IC2D usando a interface gráfica ForceCAST Studio. As instruções a seguir estão segmentadas de acordo com o uso do software/bancada, sendo indicado seguir estritamente ao conjunto de instruções que se aplica a cada caso. Antes de prosseguir é necessário que o usuário esteja ciente das instruções de uso dos outros componentes da bancada, tal como o acionamento hidráulico e o atuador elétrico LinMot ([Manual IC2D](TODO_link_to_manual)).
 
-Outro objetivo desse repositório é servir de base para o versionamento do código fonte, enquanto utilizamos uma imagem Docker para facilitar o uso para diversos usuários. É recomendada experiência prévia mínina com _git_ e _linux_ para configuração desse ambiente de desenvolvimento.
+## Usuário básico: executando experimentos sem alterações no código 
 
-## Configuração
+As instruções a seguir devem ser seguidas para o uso básico da bancada com o código base, sem alterações.
 
-1. Em sua máquina é necessário instalar o _git_ e, recomendado, o editor [Visual Studio Code](https://code.visualstudio.com/):
+## Usuário intermediário: executando experimentos com alterações no código
 
-    ```bash
-    sudo apt install git 
-    sudo snap install code --classic
-    ```
+As instruções a seguir devem ser seguidas por todos os usuários que consideram contribuir com o código fonte ou desenvolver algoritmos de controle. A não aderência às instruções implicará em rejeição de _pull requests_ (PR) automática. Recomenda-se a leitura das instruções do [usuário básico](#usuário-básico-executando-experimentos-sem-alterações-no-código) também, uma vez que o procedimento experimental padrão deve ser mantido. Alterações no código que impliquem em mudança no procedimento padrão, tais como na arquitetura da interface gráfica ou local de salvamento dos dados experimentais, deve ser indicado na PR ou considerado nas alterações de [usurário avançado](#usuário-avançado-entendendo-as-dependências-do-framework-e-fazendo-alterações-nelas).
 
-2. Instale o Docker em seu computador seguindo as instruções desse [repositório](https://github.com/lomcin/linux-stuffs#docker);
+Visando trabalhar com uma abordagem mundialmente conhecida em projetos de _software_ aberto, o procedimento adotado aqui é o Git Flow padrão. Resumidamente, aos familiarizados com git, cada usuário deve fazer um _fork_  deste repositório com sua conta GitHub e clonar o seu _fork_, **com um nome adequado**, na seguinte pasta do computador da bancada:
 
-3. Gere a imagem e inicialize o _container_ 'nucleo-legged' segundo instruções desse [repositório](https://github.com/lomcin/legged_ws).
-
-## Instalação do programa ForeCAST NEXT
-
-1. Baixar o arquivo 'Forecast NEXT-0.0.1.AppImage' ( [link](https://drive.google.com/file/d/1iX5ELgxvNkgTH1Kr4nGauSGmoDLqYUBu/view?usp=share_link) )
-
-2. No terminal, execute os seguintes comandos:
-
-    ```bash
-    chmod u+x Forecast\ NEXT-0.0.1.AppImage
-    sudo apt install libfuse2
-    ```
-
-3. Configure o acesso do PlatformIO ao usb do computador segundo essas [instruções](https://docs.platformio.org/en/latest/core/installation/udev-rules.html).
-
-## Observações
-
-A configuração deste repositório git, assim como a adoção da imagem docker, auxilia o desenvolvimento do software automatizando algumas configurações prévias e evitando erros provenientes de instalações locais (em cada computador). Aqui não é necessário resovler a instalação do [PlatformIO](https://docs.platformio.org/en/latest/what-is-platformio.html), muito menos a versão compatível do Python (3.6+ até 3.9!). Isso já está configurado na imagem docker. Quanto configuração original do repositório, tal como descrita [aqui](https://gitlab.com/altairLab/elasticteam/ForecastNucleoFramework-test/-/tree/NEXT/#get-the-firmware), também já está resolvida nesse novo repositório.
-
-A única diferença é a necessidade de utilzarmos o PlatformIO pela linha de comando (CLI), já que não será feito uso da extensão no VS Code. A seguir estão as instruções para realizar compilação e envio para placa com o PlatformIO.
-
-**Nota: caso precise clonar este repositório separadamente use:**
 ```bash
-git clone --recurse-submodules git@github.com:qleonardolp/forecast-nucleo.git
+cd /home/ic2d/legged_ws/docker/container/nucle2-legged/home/ic2d/
+git clone https://github.com/<seu_usuario>/ic2d-nucleo.git <your_folder_name>
 ```
 
-## Compilação e Envio: PlatformIO CLI
-
-WIP...
-
-1. Compilando:
-    ```bash
-    pio run -e <nome_do_ambiente>
-    ```
-
-2. Compilando e enviando para placa:
-    ```bash
-    pio run -e <nome_do_ambiente> -t upload
-    ```
-
-3. Limpando o projeto:
-    ```bash
-    pio run -t clean
-    ```
-
-## Configuração VS Code
-
-Para facilitar o desenvolvimento com o VS Code, algumas configurações foram necessárias ([ver arquivo](.vscode/c_cpp_properties.json)):
-
-1. Adicionado o caminho dos cabeçalhos do framework Mbed ao _includePath_:
-    ```
-    "includePath": [
-                "${workspaceFolder}/**",
-                "${HOME}/.platformio/packages/framework-mbed/**"
-            ]
-    ```
-
-2. Adicionado definições para facilitar a visualização do código:
-
-    ```
-    "defines": [
-                "TARGET_STM32F4",
-                "DEVICE_ANALOGOUT",
-                "IC2D_SETUP"
-            ]
-    ```
-
-## Documentação (Doxygen)
-
-Executando a geração da documentação (comando na raiz do repositório):
+Para compilar o seu código, execute o seguinte comando na sua pasta:
 ```bash
-doxygen Doxyfile
+pio run -e ic2d-release
 ```
+
+Para enviar o seu código compilado para a placa, conecte a placa pelo cabo USB e execute o seguinte comando na sua pasta:
+```bash
+pio run -e ic2d-release -t upload
+```
+
+## Usuário avançado: entendendo as dependências do framework e fazendo alterações nelas
+
+Primeiramente, espero que você saiba o que esta fazendo. Segundamente, boa sorte! Esse framework baseado em Platformio foi originalmente desenvolvido com:
+- Plataforma STM32 versão 5.3.0;
+- Framework Mbed versão [5.51105.220603](https://github.com/qleonardolp/framework-mbed-5.51105.220603). Essa versão não está mais disponível pela [distribuição oficial Platformio](https://registry.platformio.org/tools/platformio/framework-mbed);
+- Instalação do Platformio com Python >3.6 e <3.9.

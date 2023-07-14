@@ -27,6 +27,34 @@ Para enviar o seu código compilado para a placa, conecte a placa pelo cabo USB 
 pio run -e ic2d-release -t upload
 ```
 
+Após ter uma versão estável do seu código (testada e validada) você pode submeter a PR pelo GitHub para que suas alterações sejam incluídas nesse repositório.
+
+### Criando um controlador novo
+
+Confira se o controle que você precisa já existe [aqui](/lib/forecastnucleoframework/src/controllers/). Os caminhos de pasta descritos nessa seção são relativos a pasta raiz do seu repositório. Crie novos arquivos de cabeçalho e código fonte (.hpp e .cpp) nas respectivas pastas:
+
+```bash
+lib/forecastnucleoframework/include/forecast/controllers
+```
+
+```bash
+lib/forecastnucleoframework/src/controllers
+```
+
+Seu novo controlador precisa ser incluído no arquivo [src/main.cpp](/src/main.cpp):
+
+```
+/** Controllers Headers */
+#include <forecast/controllers/PositionPID.hpp>
+//...
+#include <forecast/controllers/your_new_controller.hpp>
+```
+
+E dentro da função __main__:
+```
+app.get_controller_factory().add("Nome do Controlador", make_nome_controle_builder());
+```
+
 ## Usuário avançado: entendendo as dependências do framework e fazendo alterações nelas
 
 Primeiramente, espero que você saiba o que esta fazendo. Segundamente, boa sorte! Esse framework baseado em Platformio foi originalmente desenvolvido com:

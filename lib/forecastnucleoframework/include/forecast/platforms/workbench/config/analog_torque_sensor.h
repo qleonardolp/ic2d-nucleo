@@ -4,6 +4,8 @@
 #define TORQUE_SENSOR_PIN PC_0
 #define TORQUE_SENSOR_OFFSET 1.65f
 #define TORQUE_SENSOR_BUFFER_SIZE 128
+#ifdef IC2D_SETUP
 #define TORQUE_SENSOR_RANGE 250.0       // [N] SMT1-250N Load Cell capacity 
+#endif
 
 #endif // CONFIG_ANALOG_TORQUE_SENSOR_H

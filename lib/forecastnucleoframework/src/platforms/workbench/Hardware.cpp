@@ -34,6 +34,9 @@ forecast::Status forecast::Hardware::init() {
   if (not torqueSensorInit())
     return Status::TORQUE_SENSOR_INIT_ERR;
 
+  lowPassTauSensor = utility::AnalogFilter::getLowPassFilterHz(40.0f);
+  lowPassTauSensor->clean();
+
   return Status::NO_ERROR;
 }
 
@@ -172,6 +175,9 @@ void forecast::Hardware::update(float dt) {
     amplitude_voltage = center_voltage - 0.00;
     tauSensor = signed_voltage/amplitude_voltage * TORQUE_SENSOR_RANGE;
   }
+
+  float tauSensor_filt = lowPassTauSensor->process(tauSensor, dt);
+  tauSensor = tauSensor_filt;
 
 
   dtauSensor = (tauSensor - prev_tauSensor) / dt;

@@ -12,14 +12,18 @@ ForcePID::ForcePID(float kp, float ki, float kd)
       ierr(0.f)
 {
     logs.push_back(&reference);
-    lowPass = utility::AnalogFilter::getDifferentiatorHz(10.0f);
+    lowPass = utility::AnalogFilter::getLowPassFilterHz(40.0f);
+    lowPassD = utility::AnalogFilter::getLowPassFilterHz(40.0f);
 }
 
 float ForcePID::process(const IHardware *hw, std::vector<float> ref)
 {
-    tau = hw->get_tau_s(0);
-    dtau = hw->get_d_tau_s(0);
     reference = ref[0];
+    //tau = hw->get_tau_s(1);     // was 0: tauS
+    //dtau = hw->get_d_tau_s(1);  // was 0: tauS
+
+    tau = lowPass->process(hw->get_tau_s(1), hw->get_dt());
+    dtau = lowPassD->process(hw->get_d_tau_s(1), hw->get_dt());
 
     err = ref[0] - tau;
     derr = (err - errPast) / hw->get_dt();

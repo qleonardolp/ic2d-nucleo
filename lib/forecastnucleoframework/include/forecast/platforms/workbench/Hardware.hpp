@@ -13,6 +13,8 @@
 
 #include "../../IHardware.hpp"
 
+#include <utility/filters/AnalogFilter.hpp>
+
 namespace forecast {
 class Hardware : public IHardware {
 public:
@@ -294,6 +296,8 @@ protected:
   EsconMotor *env_motor = nullptr;     ///< Motor used for the env. simulation
 
   AnalogInput *torque_sensor = nullptr; ///< Torque sensor
+
+  utility::AnalogFilter* lowPassTauSensor;
 
   float t, dt, current_time;
   float start_t;

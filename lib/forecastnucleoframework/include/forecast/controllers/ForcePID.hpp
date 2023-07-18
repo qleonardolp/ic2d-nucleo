@@ -43,6 +43,7 @@ class ForcePID : public Controller {
     float reference = 0.0;
 
     utility::AnalogFilter* lowPass;
+    utility::AnalogFilter* lowPassD;
 };
 
 inline ControllerFactory::Builder make_Force_PID_builder() {

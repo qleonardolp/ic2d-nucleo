@@ -115,11 +115,10 @@ void forecast::Hardware::update(float dt) {
   current_time = get_current_time();
 
   /* Motor encoder update */
-  /* Motor encoder is mounted in the opposite position wrt env encoder */
-  thetaM = -encoder_motor->getAngleRad();
+  thetaM = -encoder_motor->getAngleRad()*0.001; // mm -> m
   // thetaM += 1;
   // dthetaM = (thetaM - prev_thetaM) / dt;
-  dthetaM = -encoder_motor->getVelocityRad(dt);
+  dthetaM = -encoder_motor->getVelocityRad(dt)*0.001;
   ddthetaM = (dthetaM - prev_dthetaM) / dt;
   prev_thetaM = thetaM;
   prev_dthetaM = dthetaM;
@@ -160,8 +159,20 @@ void forecast::Hardware::update(float dt) {
   prev_tauS = tauS;
   prev_dtauS = dtauS;
 
-  //tauSensor = -((torque_sensor->read_average_float() * 3.3f) - tauSensorOffset) * 7.6075f * 1.418f;
-  tauSensor = torque_sensor->read_average_float() * 3.3f;
+
+  float amplitude_voltage(1);
+  float center_voltage(1.667);
+  
+  // Board voltage from USB: 3.324 V
+  float signed_voltage = torque_sensor->read_average_float() * 3.324f - center_voltage;
+  if (signed_voltage >= 0.00f) {
+    amplitude_voltage = 3.324 - center_voltage;
+    tauSensor = signed_voltage/amplitude_voltage * TORQUE_SENSOR_RANGE;
+  } else{
+    amplitude_voltage = center_voltage - 0.00;
+    tauSensor = signed_voltage/amplitude_voltage * TORQUE_SENSOR_RANGE;
+  }
+
 
   dtauSensor = (tauSensor - prev_tauSensor) / dt;
   ddtauSensor = (dtauSensor - prev_dtauSensor) / dt;

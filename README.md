@@ -19,5 +19,5 @@ git clone --recurse-submodules https://github.com/qleonardolp/ic2d-nucleo.git
 
 2. Build and upload:
     ```bash
-    pio run -e <env_name> -t upload   
+    pio run -e <env_name> -t upload    
     ```

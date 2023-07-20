@@ -199,6 +199,8 @@ void forecast::Hardware::home()
   control_motor->setTorque(0);
   env_motor->setTorque(0);
 
+  lowPassTauSensor->clean();
+  tauSensor = 0;
   wait_ms(500);
 }
 

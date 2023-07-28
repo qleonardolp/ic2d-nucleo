@@ -2,7 +2,7 @@
  * @file main.cpp
  * @author AltairLab
  * @brief Main file with App and Hardware classes instances.
- * @version 0.1
+ * @version 0.2
  * @date 2023-06-01
  *
  * @copyright Copyright (c) 2023
@@ -64,9 +64,6 @@ int main()
     app.get_controller_factory().add("NoController", make_no_controller_builder());
     app.get_controller_factory().add("Admittance", make_admittance_control_builder());
     app.get_controller_factory().add("Impedance", make_impedance_control_builder());
-    //app.get_controller_factory().add("Bypass", make_Bypass_builder());
-
-    //app.get_operator_factory().add("Sum", make_sum_op_builder());
 
     DEBUG_INFO("finished with app\n");
 

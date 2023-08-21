@@ -13,7 +13,7 @@ namespace motorControl {
     constexpr float LINMOT_FORCE_MIN = -255.00;
     constexpr float KT = (LINMOT_FORCE_MAX - LINMOT_FORCE_MIN);
     constexpr float JM = 1.0000f;
-    constexpr float offset_bias = 0.00; // LinMot: 0.000 | Moog E024: -0.015
+    constexpr float offset_bias = -0.015; // LinMot: 0.000 | Moog E024: 0.0042 | 0.000
     constexpr float amp_scale = 1.00;
 #elif
     constexpr float MAX_CURR = 3.33f;

@@ -84,15 +84,6 @@ public:
   }
 
   /**
-   * @brief   Set the experiment duration.
-   *
-   * @param  duration The experiment duration (seconds)
-   */
-  virtual inline void set_duration(float duration) {
-    app.fatal_error("Hardware set_duration() function not implemented");
-  }
-
-  /**
    * @brief   Return the start time of the experiment.
    *
    * @return  start_t
@@ -108,15 +99,6 @@ public:
    */
   virtual inline float get_current_time() const {
     app.fatal_error("Hardware getStartT() function not implemented");
-  }
-
-  /**
-   * @brief   Return the hw duration time.
-   *
-   * @return  duration_t
-   */
-  virtual inline float get_duration() const {
-    app.fatal_error("Hardware get_duration() function not implemented");
   }
 
   /**

@@ -43,13 +43,13 @@ public:
     logs["dtauS"] = &dtauS;
     logs["ddtauS"] = &ddtauS;
 
-    logs["F"] = &tauSensor;
-    logs["dF"] = &dtauSensor;
-    logs["ddF"] = &ddtauSensor;
+    logs["tauSensor"] = &tauSensor;
+    logs["dtauSensor"] = &dtauSensor;
+    logs["ddtauSensor"] = &ddtauSensor;
 
-    logs["x"] = &thetaM;
-    logs["dx"] = &dthetaM;
-    logs["ddx"] = &ddthetaM;
+    logs["thetaM"] = &thetaM;
+    logs["dthetaM"] = &dthetaM;
+    logs["ddthetaM"] = &ddthetaM;
 
     logs["thetaE"] = &thetaE;
     logs["dthetaE"] = &dthetaE;
@@ -111,13 +111,6 @@ public:
   inline void set_start_time(float time) override { start_t = time; }
 
   /**
-   * @brief   Set the experiment duration.
-   *
-   * @param  duration The experiment duration (seconds).
-   */
-  inline void set_duration(float duration) override { duration_t = duration; }
-
-  /**
    * @brief   Return the start time of the experiment.
    *
    * @return  start_t
@@ -131,14 +124,7 @@ public:
    */
   virtual inline float get_current_time() const override { return t - start_t; }
 
-  /**
-   * @brief   Return the hw duration time.
-   *
-   * @return  duration_t
-   */
-  virtual inline float get_duration() const override { return duration_t; }
-
-  /**
+  /**std::make_unique<control::Control>()
    * @brief   Return the torque applied by the motor (current feedback)
    *
    * @return  motorTorqueFeedback
@@ -310,14 +296,11 @@ protected:
   EsconMotor *env_motor = nullptr;     ///< Motor used for the env. simulation
 
   AnalogInput *torque_sensor = nullptr; ///< Torque sensor
-  AnalogInput *load_cell2_sensor = nullptr; ///< Torque sensor 
 
   utility::AnalogFilter* lowPassTauSensor;
-  utility::AnalogFilter* lowPassLoacCell2;
 
   float t, dt, current_time;
   float start_t;
-  float duration_t;
 
   float tauM;
   float dtauM;

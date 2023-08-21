@@ -10,6 +10,11 @@ Welcome to the ForceCAST Nucleo Framework developed by the [AltairLab](https://g
 git clone --recurse-submodules https://github.com/qleonardolp/ic2d-nucleo.git
 ```
 
+**After clone your fork locally, update the submodules to download lib/Eigen3**
+```bash
+git submodule update
+```
+
 ## Build and upload to the board
 
 1. Build only:

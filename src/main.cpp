@@ -21,6 +21,7 @@
 #include <forecast/controllers/EnvRenderingControl.hpp>
 #include <forecast/controllers/AdmittanceControl.hpp>
 #include <forecast/controllers/ImpedanceControl.hpp>
+#include <forecast/controllers/Bypass.hpp>
 
 /** Refgen Headers */
 #include <forecast/reference_generators/ConstantRefGen.hpp>
@@ -64,9 +65,7 @@ int main()
     app.get_controller_factory().add("NoController", make_no_controller_builder());
     app.get_controller_factory().add("Admittance", make_admittance_control_builder());
     app.get_controller_factory().add("Impedance", make_impedance_control_builder());
-    //app.get_controller_factory().add("Bypass", make_Bypass_builder());
-
-    //app.get_operator_factory().add("Sum", make_sum_op_builder());
+    app.get_controller_factory().add("Bypass", make_Bypass_builder());
 
     DEBUG_INFO("finished with app\n");
 

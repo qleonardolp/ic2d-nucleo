@@ -34,6 +34,8 @@ forecast::Status forecast::Hardware::init() {
   if (not torqueSensorInit())
     return Status::TORQUE_SENSOR_INIT_ERR;
 
+  load_cell2_sensor = new AnalogInput(PC_1);
+
   lowPassTauSensor = utility::AnalogFilter::getLowPassFilterHz(2.0f);
   lowPassTauSensor->clean();
 
@@ -164,23 +166,32 @@ void forecast::Hardware::update(float dt) {
 
 
   float amplitude_voltage(1);
-  //float center_voltage(LOADCELL_250_OFFSET);
-  float center_voltage(LOADCELL_5K_OFFSET);
+  float center_voltage(LOADCELL_250_OFFSET);
+  //float center_voltage(LOADCELL_5K_OFFSET);
   
-  // Board voltage from USB: 3.324 V
+  // Read Load Cell 1
   float signed_voltage = torque_sensor->read_average_float() * 3.324f - center_voltage;
   if (signed_voltage >= 0.00f) {
     amplitude_voltage = 3.324 - center_voltage;
-    tauSensor = signed_voltage/amplitude_voltage * LOADCELL_5K_RANGE;
+    tauSensor = signed_voltage/amplitude_voltage * LOADCELL_250_RANGE;
   } else{
     amplitude_voltage = center_voltage - 0.00;
-    tauSensor = signed_voltage/amplitude_voltage * LOADCELL_5K_RANGE;
+    tauSensor = signed_voltage/amplitude_voltage * LOADCELL_250_RANGE;
   }
 
+// Read Load Cell 2
+  float lc2_signed_voltage = load_cell2_sensor->read_average_float() * 3.324f - 1.749;
+  if (lc2_signed_voltage >= 0.00f) {
+    amplitude_voltage = 3.324 -1.749;
+    tauS = lc2_signed_voltage/amplitude_voltage * LOADCELL_5K_RANGE;
+  } else{
+    amplitude_voltage = 1.749 - 0.00;
+    tauS = lc2_signed_voltage/amplitude_voltage * LOADCELL_5K_RANGE;
+  }
+  tauS = lowPassLoacCell2->process(-tauS, dt);
   float tauSensor_filt = lowPassTauSensor->process(tauSensor, dt);
-  tauSensor = tauSensor_filt + 11.0f; // Bias in Newton, hydraulic tests 2023-07-19
-
-
+  tauSensor = tauSensor_filt - 7.0f; // Bias in Newton, hydraulic tests 2023-07-19
+  
   dtauSensor = (tauSensor - prev_tauSensor) / dt;
   ddtauSensor = (dtauSensor - prev_dtauSensor) / dt;
   prev_tauSensor = tauSensor;

@@ -566,6 +566,7 @@ bool App::exec_control_loop(unsigned long freq, float duration) {
 
   DEBUG_INFO("Executing the control loop at frequency %luHz\n", freq);
 
+  hw->set_duration(duration);
   hw->safety_off(); // putting the hardware in a ready state for the
                     // experiment
   size_t log_size = hw_logs.size();
